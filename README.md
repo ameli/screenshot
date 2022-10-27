@@ -12,7 +12,7 @@ This program takes a screenshot from a VTK dataset in one file or series of file
 
        sudo apt-get install g++ libomp-dev cmake -y
 
-2. Install *VTK *development:
+2. Install *VTK* development:
 
        sudo apt install libvtk5-dev -y
 
