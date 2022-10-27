@@ -1,5 +1,5 @@
 /*
- * =====================================================================================
+ * ============================================================================
  *
  *       Filename:  main.cxx
  *
@@ -13,7 +13,7 @@
  *         Author:  Siavash Ameli
  *   Organization:  University Of California, Berkeley
  *
- * =====================================================================================
+ * ============================================================================
  */
 
 // =======
@@ -74,7 +74,8 @@ int main(int argc, char *argv[])
                 InputFilename);
 
         // Read File
-        vtkSmartPointer<vtkDataSet> InputDataSet = Read(InputFilename,InputFileType);
+        vtkSmartPointer<vtkDataSet> InputDataSet = Read(
+                InputFilename,InputFileType);
        
         // Render
         vtkSmartPointer<vtkRenderWindow> RenderWindow = Render(InputDataSet);
@@ -86,7 +87,8 @@ int main(int argc, char *argv[])
         // Write to PNG
         Write(OutputFilename,RenderWindow);
 
-        std::cout << InputFilename << " converted to " << OutputFilename << "." << std::endl;
+        std::cout << InputFilename << " converted to " << OutputFilename;
+        std::cout << "." << std::endl;
     }
     
     return EXIT_SUCCESS;
@@ -125,7 +127,8 @@ void ParseArguments(
     }
     else if(FileStartIndex > FileEndIndex)
     {
-        std::cerr << "FileStartIndex should be less than or equal to FileEndIndex." << std::endl;
+        std::cerr << "FileStartIndex should be less than or equal to ";
+        std::cerr << "FileEndIndex." << std::endl;
         exit(0);
     }
 }
@@ -136,15 +139,22 @@ void ParseArguments(
 
 void PrintUsage(const char *ExecutableName)
 {
-    std::cerr << "Usage: " << ExecutableName << "  InputBaseFilename  FileStartIndex  FileEndIndex FileExtension" << std::endl;
+    std::cerr << "Usage: " << ExecutableName << "  InputBaseFilename  ";
+    std::cerr << "FileStartIndex  FileEndIndex FileExtension" << std::endl;
 
-    std::cerr << "\nInputBaseFilename: is the input filename without the iterator and file extension." << std::endl;
-    std::cerr << "FileStartIndex and FileEndIndex: the start and end of iterator on file name." << std::endl;
-    std::cerr << "FileExtension is one of vtk, vti, vtr, vts, vtp, vtu." << std::endl;
+    std::cerr << "\nInputBaseFilename: is the input filename without the ";
+    std::cerr << "iterator and file extension." << std::endl;
+    std::cerr << "FileStartIndex and FileEndIndex: the start and end of ";
+    std::cerr << "iterator on file name." << std::endl;
+    std::cerr << "FileExtension is one of vtk, vti, vtr, vts, vtp, vtu.";
+    std::cerr << std::endl;
 
-    std::cerr << "\nExample: " << ExecutableName << "  MyFile-  1  20  vtk" << std::endl;
-    std::cerr << "The example reads files MyFile-1.vtk to MyFile-20.vtk and " << std::endl;
-    std::cerr << "generates screenshot files MyFile-1.png to MyFile-20.png." << std::endl;
+    std::cerr << "\nExample: " << ExecutableName << "  MyFile-  1  20  vtk";
+    std::cerr << std::endl;
+    std::cerr << "The example reads files MyFile-1.vtk to MyFile-20.vtk and ";
+    std::cerr << std::endl;
+    std::cerr << "generates screenshot files MyFile-1.png to MyFile-20.png.";
+    std::cerr << std::endl;
 }
 
 // ================
@@ -152,7 +162,7 @@ void PrintUsage(const char *ExecutableName)
 // ================
 
 // Description:
-// This function determines if the input file is legacy VTK file format or XML file.
+// This function determines if the input file is legacy VTK file or XML file.
 
 FileType DetectFileType(const char *InputFileExtension)
 {
@@ -172,7 +182,8 @@ FileType DetectFileType(const char *InputFileExtension)
     }
     else
     {
-        std::cerr << "File type: " << InputFileType << " is not supported. Program terminated." << std::endl;
+        std::cerr << "File type: " << InputFileType << " is not supported. ";
+        std::cerr << "Program terminated." << std::endl;
         exit(0);
     }
 
@@ -195,7 +206,8 @@ vtkSmartPointer<vtkDataSet> Read(
         case VTK:
         {
             // Read file
-            vtkSmartPointer<vtkGenericDataObjectReader> Reader = vtkSmartPointer<vtkGenericDataObjectReader>::New();
+            vtkSmartPointer<vtkGenericDataObjectReader> Reader = \
+                    vtkSmartPointer<vtkGenericDataObjectReader>::New();
             Reader->SetFileName(InputFilename);
             Reader->Update();
 
@@ -209,7 +221,8 @@ vtkSmartPointer<vtkDataSet> Read(
         case XML:
         {
             // Read file
-            vtkSmartPointer<vtkXMLGenericDataObjectReader> Reader = vtkSmartPointer<vtkXMLGenericDataObjectReader>::New();
+            vtkSmartPointer<vtkXMLGenericDataObjectReader> Reader = \
+                    vtkSmartPointer<vtkXMLGenericDataObjectReader>::New();
             Reader->SetFileName(InputFilename);
             Reader->Update();
 
@@ -244,7 +257,8 @@ vtkSmartPointer<vtkDataSet> Read(
 vtkSmartPointer<vtkRenderWindow> Render(vtkDataSet *InputDataSet)
 {
     // Mapper
-    vtkSmartPointer<vtkDataSetMapper> Mapper = vtkSmartPointer<vtkDataSetMapper>::New();
+    vtkSmartPointer<vtkDataSetMapper> Mapper = \
+            vtkSmartPointer<vtkDataSetMapper>::New();
     #if VTK_MAJOR_VERSION <= 5
         Mapper->SetInput(InputDataSet);
     #else
@@ -256,12 +270,14 @@ vtkSmartPointer<vtkRenderWindow> Render(vtkDataSet *InputDataSet)
     Actor->SetMapper(Mapper);
 
     // Renderer
-    vtkSmartPointer<vtkRenderer> Renderer = vtkSmartPointer<vtkRenderer>::New();
+    vtkSmartPointer<vtkRenderer> Renderer = \
+            vtkSmartPointer<vtkRenderer>::New();
     Renderer->AddActor(Actor);
     Renderer->SetBackground(1,1,1);
 
     // Render Window
-    vtkSmartPointer<vtkRenderWindow> RenderWindow = vtkSmartPointer<vtkRenderWindow>::New();
+    vtkSmartPointer<vtkRenderWindow> RenderWindow = \
+            vtkSmartPointer<vtkRenderWindow>::New();
     RenderWindow->AddRenderer(Renderer);
     RenderWindow->SetAlphaBitPlanes(1);
     RenderWindow->SetWindowName("Screenshot");
@@ -271,11 +287,13 @@ vtkSmartPointer<vtkRenderWindow> Render(vtkDataSet *InputDataSet)
     return RenderWindow;
 
     // Callback
-    // vtkSmartPointer<vtkCallbackCommand> Callback = vtkSmartPointer<vtkCallbackCommand>::New();
+    // vtkSmartPointer<vtkCallbackCommand> Callback = \
+    //         vtkSmartPointer<vtkCallbackCommand>::New();
     // Callback->SetCallback(CallbackFunction);
 
     // Render Window Interactor
-    // vtkSmartPointer<vtkRenderWindowInteractor> Interactor = vtkSmartPointer<vtkRenderWindowInteractor>::New();
+    // vtkSmartPointer<vtkRenderWindowInteractor> Interactor = \
+    //         vtkSmartPointer<vtkRenderWindowInteractor>::New();
     // Interactor->SetRenderWindow(RenderWindow);
     // Interactor->AddObserver(vtkCommand::KeyPressEvent,Callback);
 
@@ -294,14 +312,16 @@ void Write(
         vtkRenderWindow *RenderWindow)
 {
     // Window To Image
-    vtkSmartPointer<vtkWindowToImageFilter> WindowToImage = vtkSmartPointer<vtkWindowToImageFilter>::New();
+    vtkSmartPointer<vtkWindowToImageFilter> WindowToImage = \
+            vtkSmartPointer<vtkWindowToImageFilter>::New();
     WindowToImage->SetInput(RenderWindow);
     WindowToImage->SetScale(3);
     WindowToImage->SetInputBufferTypeToRGBA();
     WindowToImage->Update();
 
     // PNG Writer
-    vtkSmartPointer<vtkPNGWriter> PNGWriter = vtkSmartPointer<vtkPNGWriter>::New();
+    vtkSmartPointer<vtkPNGWriter> PNGWriter = \
+            vtkSmartPointer<vtkPNGWriter>::New();
     PNGWriter->SetFileName(OutputFilename);
     PNGWriter->SetInputConnection(WindowToImage->GetOutputPort());
     PNGWriter->Write();
@@ -317,7 +337,8 @@ void CallbackFunction(
         void *ClientData,
         void *CallData)
 {
-    vtkRenderWindowInteractor *Interactor = static_cast<vtkRenderWindowInteractor*>(Caller);
+    vtkRenderWindowInteractor *Interactor = \
+            static_cast<vtkRenderWindowInteractor*>(Caller);
     Interactor->GetRenderWindow()->Finalize();
     Interactor->TerminateApp();
 
@@ -357,7 +378,7 @@ void GenerateOutputFilename(
     }
     else
     {
-        std::cerr << "Not dot can be find in the input file name." << std::endl;
+        std::cerr << "No dot can be found in the input filename." << std::endl;
         exit(0);
     }
 
